@@ -1,16 +1,19 @@
 
-/* =================================
-   NEXORA - MODERN WEBSITE DESIGN
-================================= */
+/* =========================================
+   NEXORA - PREMIUM UI REDESIGN
+   Dark Navy | Neon Cyan | Glassmorphism
+========================================= */
 
 :root {
     --bg: #080d18;
     --surface: #111a2b;
     --surface-light: #18243a;
     --primary: #43baff;
+    --primary-light: #8bd7ff;
     --text: #f5f7ff;
     --muted: #a6b3c8;
     --border: rgba(255,255,255,0.09);
+    --glow: rgba(67,186,255,0.25);
 }
 
 * {
@@ -21,6 +24,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 100px;
 }
 
 body {
@@ -28,11 +32,12 @@ body {
     background: var(--bg);
     color: var(--text);
     line-height: 1.7;
+    overflow-x: hidden;
 }
 
 a {
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
 }
 
 .container {
@@ -40,15 +45,23 @@ a {
     margin: auto;
 }
 
-/* NAVIGATION */
+/* =========================================
+   NAVBAR
+========================================= */
 
 header {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(8,13,24,0.94);
-    backdrop-filter: blur(14px);
+    z-index: 1000;
+    background: rgba(8,13,24,0.88);
+    backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
+    transition: 0.3s ease;
+}
+
+header.scrolled {
+    background: rgba(8,13,24,0.97);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
 
 nav {
@@ -59,10 +72,11 @@ nav {
 }
 
 .logo {
-    color: var(--primary);
-    font-size: 25px;
-    font-weight: 800;
+    font-size: 26px;
+    font-weight: 900;
     letter-spacing: 3px;
+    color: var(--primary);
+    text-shadow: 0 0 20px var(--glow);
 }
 
 .nav-links {
@@ -80,30 +94,54 @@ nav {
 
 .nav-links a:hover {
     color: var(--primary);
+    text-shadow: 0 0 12px var(--primary);
 }
 
-/* HERO */
+/* =========================================
+   HERO SECTION
+========================================= */
 
 .hero {
-    min-height: 590px;
+    min-height: 620px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
+
     background:
         radial-gradient(
-            ellipse at 80% 40%,
-            rgba(30,132,210,0.20),
-            transparent 50%
+            circle at 80% 40%,
+            rgba(30,132,210,0.22),
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(67,186,255,0.10),
+            transparent 35%
         ),
         linear-gradient(135deg,#101d32,#080d18 75%);
 }
 
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    right: 8%;
+    top: 20%;
+    border-radius: 50%;
+    border: 1px solid rgba(67,186,255,0.12);
+    box-shadow:
+        0 0 80px rgba(67,186,255,0.08),
+        inset 0 0 80px rgba(67,186,255,0.06);
+    animation: heroFloat 7s ease-in-out infinite;
+}
+
 .hero-content {
     position: relative;
-    z-index: 1;
-    padding-top: 70px;
-    padding-bottom: 70px;
+    z-index: 2;
+    padding: 90px 0;
+    animation: heroEnter 1s ease both;
 }
 
 .hero-content > p:first-child {
@@ -115,7 +153,7 @@ nav {
 }
 
 .hero h1 {
-    font-size: clamp(42px, 7vw, 76px);
+    font-size: clamp(42px,7vw,76px);
     line-height: 1.08;
     letter-spacing: -2px;
     margin-bottom: 25px;
@@ -123,33 +161,82 @@ nav {
 
 .hero h1 span {
     color: var(--primary);
+    text-shadow: 0 0 30px rgba(67,186,255,0.3);
 }
 
 .hero-content > p:not(:first-child) {
-    color: var(--muted);
     max-width: 550px;
+    color: var(--muted);
     margin-bottom: 32px;
 }
 
-/* BUTTON */
+/* =========================================
+   PREMIUM GLOW BUTTON
+========================================= */
 
 .btn {
+    position: relative;
     display: inline-block;
-    padding: 13px 25px;
-    background: var(--primary);
+    overflow: hidden;
+    padding: 14px 27px;
+    border: 1px solid rgba(67,186,255,0.55);
+    border-radius: 9px;
+    background: linear-gradient(135deg,#43baff,#168cff);
     color: #06111d;
     font-size: 14px;
-    font-weight: bold;
-    border-radius: 7px;
-    transition: 0.3s ease;
+    font-weight: 800;
+    cursor: pointer;
+
+    box-shadow: 0 0 15px rgba(67,186,255,0.2);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(
+        110deg,
+        transparent,
+        rgba(255,255,255,0.55),
+        transparent
+    );
+    transform: skewX(-25deg);
+    transition: left 0.6s ease;
+}
+
+.btn:hover::before {
+    left: 150%;
 }
 
 .btn:hover {
-    background: #8bd7ff;
-    transform: translateY(-3px);
+    background: var(--primary-light);
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 12px rgba(67,186,255,0.8),
+        0 0 30px rgba(67,186,255,0.45),
+        0 0 55px rgba(67,186,255,0.2);
 }
 
-/* GENERAL SECTION */
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+/* =========================================
+   GENERAL SECTION
+========================================= */
 
 section {
     padding: 90px 0;
@@ -157,9 +244,9 @@ section {
 
 .section-title {
     text-align: center;
-    font-size: clamp(27px, 4vw, 38px);
-    margin-bottom: 12px;
+    font-size: clamp(27px,4vw,38px);
     letter-spacing: -1px;
+    margin-bottom: 12px;
 }
 
 .section-description {
@@ -168,21 +255,34 @@ section {
     margin-bottom: 45px;
 }
 
-/* ABOUT */
+/* =========================================
+   ABOUT
+========================================= */
 
 .about-content {
     max-width: 760px;
     margin: auto;
-    padding: 35px;
+    padding: 40px 30px;
     text-align: center;
-    background: var(--surface);
+    background: linear-gradient(
+        145deg,
+        var(--surface-light),
+        var(--surface)
+    );
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+}
+
+.about-content:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 30px var(--glow);
 }
 
 .about-content h3 {
     color: var(--primary);
-    font-size: 24px;
+    font-size: 25px;
     margin-bottom: 12px;
 }
 
@@ -190,39 +290,48 @@ section {
     color: var(--muted);
 }
 
-/* PACKAGE */
+/* =========================================
+   PACKAGES
+========================================= */
 
-#packages h3 {
-    margin: 30px 0 20px;
+.package-category {
+    margin: 45px 0 22px;
+    font-size: 25px;
+    color: var(--primary);
 }
 
 .package-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
     gap: 22px;
-    margin-bottom: 45px;
+    margin-bottom: 40px;
 }
 
 .package-card {
-    padding: 28px;
+    padding: 30px 23px;
+    text-align: center;
     background: linear-gradient(
         145deg,
         var(--surface-light),
         var(--surface)
     );
     border: 1px solid var(--border);
-    border-radius: 14px;
-    transition: 0.3s ease;
+    border-radius: 18px;
+    transition: 0.35s ease;
 }
 
 .package-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     border-color: var(--primary);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.25),
+        0 0 25px rgba(67,186,255,0.12);
 }
 
 .package-card h3 {
     color: var(--primary);
-    margin: 0 0 12px;
+    font-size: 19px;
+    margin-bottom: 12px;
 }
 
 .package-card p {
@@ -230,35 +339,157 @@ section {
     font-size: 14px;
 }
 
-.price {
+.package-card .price {
+    color: var(--primary);
     font-size: 27px;
-    font-weight: 800;
-    margin: 18px 0 2px;
+    font-weight: 900;
+    margin: 18px 0 3px;
 }
 
 .package-card .btn {
     margin-top: 20px;
 }
 
-/* PROMOTION */
+/* =========================================
+   STB INFORMATION
+========================================= */
+
+.stb-section {
+    padding: 40px 25px;
+    margin: 45px 0;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: linear-gradient(
+        135deg,
+        #142338,
+        #111a2b
+    );
+}
+
+.stb-section .price {
+    color: var(--primary);
+    font-size: 32px;
+    font-weight: 900;
+    margin: 15px 0;
+}
+
+.stb-section p {
+    color: var(--muted);
+}
+
+/* =========================================
+   PRICE CALCULATOR
+========================================= */
+
+.price-calculator {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 35px;
+    background: rgba(17,26,43,0.92);
+    border: 1px solid rgba(67,186,255,0.3);
+    border-radius: 22px;
+    box-shadow:
+        0 15px 45px rgba(0,0,0,0.25),
+        0 0 35px rgba(67,186,255,0.06);
+}
+
+.price-calculator h2 {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.price-calculator > p {
+    color: var(--muted);
+    text-align: center;
+}
+
+.price-calculator label {
+    display: block;
+    margin: 20px 0 8px;
+    font-weight: 600;
+}
+
+.price-calculator select {
+    width: 100%;
+    padding: 15px;
+    color: var(--text);
+    background: #101d32;
+    border: 1px solid rgba(67,186,255,0.35);
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+.price-calculator select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 12px var(--glow);
+}
+
+.price-calculator select option {
+    background: #101d32;
+    color: white;
+}
+
+.calculator-result {
+    margin: 28px 0;
+    padding: 25px;
+    text-align: center;
+    background: rgba(67,186,255,0.08);
+    border: 1px solid rgba(67,186,255,0.25);
+    border-radius: 15px;
+}
+
+.calculator-result p {
+    color: var(--muted);
+}
+
+.calculator-result h3 {
+    color: var(--primary);
+    font-size: 32px;
+    margin: 12px 0;
+    text-shadow: 0 0 15px rgba(67,186,255,0.3);
+}
+
+.price-calculator .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 13px;
+}
+
+/* =========================================
+   PROMOTION
+========================================= */
 
 .promo-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2,minmax(0,1fr));
     gap: 22px;
 }
 
 .promo-card {
-    text-align: center;
     padding: 38px 25px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--surface);
+    text-align: center;
+    border: 1px solid rgba(67,186,255,0.25);
+    border-radius: 18px;
+    background: linear-gradient(
+        135deg,
+        #142338,
+        #111a2b
+    );
+    transition: 0.3s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+    box-shadow: 0 0 25px var(--glow);
 }
 
 .promo-card h3 {
     color: var(--primary);
-    font-size: 28px;
+    font-size: 26px;
     margin-bottom: 12px;
 }
 
@@ -266,7 +497,9 @@ section {
     color: var(--muted);
 }
 
-/* REGISTRATION */
+/* =========================================
+   REGISTRATION
+========================================= */
 
 .steps {
     max-width: 760px;
@@ -274,12 +507,19 @@ section {
 }
 
 .step {
-    padding: 23px;
-    margin-bottom: 15px;
+    padding: 25px;
+    margin-bottom: 16px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-left: 4px solid var(--primary);
-    border-radius: 9px;
+    border-radius: 12px;
+    transition: 0.3s ease;
+}
+
+.step:hover {
+    transform: translateX(5px);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(67,186,255,0.08);
 }
 
 .step h3 {
@@ -290,9 +530,11 @@ section {
     color: var(--muted);
 }
 
-/* CONTACT */
+/* =========================================
+   CONTACT
+========================================= */
 
-.contact {
+#contact {
     text-align: center;
     background:
         radial-gradient(
@@ -303,50 +545,127 @@ section {
         var(--surface);
 }
 
-.contact p {
-    color: var(--muted);
-    max-width: 600px;
-    margin: 15px auto 28px;
+.contact-box {
+    max-width: 650px;
+    margin: 30px auto 0;
+    padding: 35px 25px;
+    background: rgba(8,13,24,0.55);
+    border: 1px solid var(--border);
+    border-radius: 18px;
 }
 
-/* FOOTER */
+.contact-box h3 {
+    color: var(--primary);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.contact-box p {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   WHATSAPP FLOATING BUTTON
+========================================= */
+
+.whatsapp-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    padding: 14px 22px;
+    background: #25d366;
+    color: white;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(37,211,102,0.35);
+    transition: 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
 
 footer {
-    padding: 30px 0;
+    padding: 35px 15px;
     text-align: center;
     background: #050911;
     border-top: 1px solid var(--border);
-    width: 100%;
 }
 
 footer p {
     color: #8290a6;
     font-size: 12px;
     margin: 4px 0;
-    text-align: center;
 }
 
-/* RESPONSIVE TABLET */
+/* =========================================
+   ANIMATIONS
+========================================= */
 
-@media (max-width: 900px) {
-    .package-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+@keyframes heroEnter {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-/* RESPONSIVE MOBILE */
+@keyframes heroFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-18px);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+    .package-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media (max-width: 600px) {
     nav {
         flex-direction: column;
-        padding: 16px 0;
+        justify-content: center;
+        padding: 14px 0;
         gap: 12px;
     }
 
     .nav-links {
         justify-content: center;
         flex-wrap: wrap;
-        gap: 12px 18px;
+        gap: 10px 17px;
     }
 
     .nav-links a {
@@ -354,7 +673,13 @@ footer p {
     }
 
     .hero {
-        min-height: 490px;
+        min-height: 500px;
+    }
+
+    .hero::before {
+        width: 220px;
+        height: 220px;
+        right: -80px;
     }
 
     .hero h1 {
@@ -368,400 +693,46 @@ footer p {
     .package-grid,
     .promo-grid {
         grid-template-columns: 1fr;
-    }
-
-    .about-content {
-        padding: 25px 18px;
+        gap: 16px;
     }
 
     .package-card {
-        padding: 24px;
+        padding: 25px 20px;
     }
-}
 
+    .about-content {
+        padding: 28px 18px;
+    }
 
-/* ANIMATION REVEAL */
-
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease,
-                transform 0.8s ease;
-}
-
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* HEADER SCROLL EFFECT */
-
-header {
-    transition: box-shadow 0.3s ease,
-                background 0.3s ease;
-}
-
-header.scrolled {
-    box-shadow: 0 5px 25px rgba(0,0,0,0.35);
-}
-
-/* WHATSAPP FLOATING BUTTON */
-
-.whatsapp-float {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 9999;
-    background: #25D366;
-    color: white;
-    padding: 14px 22px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 5px 20px rgba(37, 211, 102, 0.35);
-    transition: 0.3s ease;
-}
-
-.whatsapp-float:hover {
-    transform: translateY(-5px);
-}
-
-
-/* =================================
-   NEXORA - PRICE CALCULATOR
-================================= */
-
-.calculator {
-    max-width: 750px;
-    margin: 70px auto 30px;
-    padding: 35px;
-    background: rgba(15, 25, 45, 0.85);
-    border: 1px solid rgba(0, 180, 255, 0.25);
-    border-radius: 20px;
-    box-shadow: 0 0 35px rgba(0, 150, 255, 0.08);
-}
-
-.calculator h2 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 12px;
-}
-
-.calculator > p {
-    text-align: center;
-    color: #aab8cc;
-    margin-bottom: 30px;
-}
-
-.calculator-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.calculator-form label {
-    color: #ffffff;
-    font-weight: 600;
-}
-
-.calculator-form select {
-    width: 100%;
-    padding: 15px;
-    color: #ffffff;
-    background: #101d32;
-    border: 1px solid #168cff;
-    border-radius: 10px;
-    outline: none;
-    font-size: 15px;
-}
-
-.calculator-form select option {
-    background: #101d32;
-    color: #ffffff;
-}
-
-.calculator-result {
-    margin-top: 20px;
-    padding: 25px;
-    text-align: center;
-    background: rgba(0, 140, 255, 0.08);
-    border: 1px solid rgba(0, 180, 255, 0.25);
-    border-radius: 14px;
-}
-
-.calculator-result p {
-    color: #aab8cc;
-    margin-bottom: 12px;
-}
-
-.calculator-result h3 {
-    color: #00c8ff;
-    font-size: 32px;
-    margin: 0;
-    text-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
-}
-
-@media (max-width: 600px) {
-    .calculator {
-        padding: 22px;
-        margin: 45px 10px 25px;
+    .price-calculator {
+        padding: 25px 18px;
+        margin: 45px auto;
     }
 
     .calculator-result h3 {
         font-size: 26px;
     }
-}
-/* CONTACT SECTION */
-.contact {
-    text-align: center;
-}
 
-.contact-box {
-    text-align: center;
-    margin: 30px auto;
-}
-
-.contact-box h3,
-.contact-box p {
-    text-align: center;
-}
-
-
-/* =================================
-   NEXORA PACKAGE REDESIGN
-================================= */
-
-.package-category {
-    margin: 45px 0 22px;
-    font-size: 25px;
-    font-weight: 700;
-    text-align: left;
-}
-
-.package-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-    margin-bottom: 35px;
-}
-
-.package-card {
-    padding: 28px 22px;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 18px;
-    background: var(--card-bg, #151a25);
-    text-align: center;
-    transition: 0.3s ease;
-}
-
-.package-card:hover {
-    transform: translateY(-7px);
-    border-color: #38bdf8;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
-}
-
-.package-card h3 {
-    font-size: 19px;
-    margin-bottom: 12px;
-}
-
-.package-card .price {
-    font-size: 27px;
-    font-weight: 800;
-    margin: 18px 0 5px;
-    color: #38bdf8;
-}
-
-.package-card p {
-    line-height: 1.7;
-}
-
-/* PROMO */
-
-.promo-section {
-    margin: 65px 0;
-    text-align: center;
-}
-
-.promo-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-    margin-top: 25px;
-}
-
-.promo-card {
-    padding: 30px 20px;
-    border-radius: 18px;
-    border: 1px solid rgba(56,189,248,0.35);
-    background: linear-gradient(
-        135deg,
-        #142338,
-        #172033
-    );
-}
-
-.promo-card h3 {
-    font-size: 23px;
-    color: #38bdf8;
-    margin-bottom: 12px;
-}
-
-.promo-card strong {
-    display: block;
-    font-size: 20px;
-    margin: 12px 0;
-}
-
-/* STB */
-
-.stb-section {
-    padding: 35px 25px;
-    margin: 45px 0;
-    border-radius: 18px;
-    background: var(--card-bg, #151a25);
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.12);
-}
-
-.stb-section .price {
-    font-size: 30px;
-    font-weight: 800;
-    color: #38bdf8;
-    margin: 15px 0;
-}
-
-/* PRICE CALCULATOR */
-
-.price-calculator {
-    max-width: 650px;
-    margin: 60px auto;
-    padding: 30px;
-    border-radius: 20px;
-    background: var(--card-bg, #151a25);
-    border: 1px solid rgba(255,255,255,0.12);
-}
-
-.price-calculator h2 {
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-.price-calculator label {
-    display: block;
-    margin: 20px 0 8px;
-    font-weight: 600;
-}
-
-.price-calculator select {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid #64748b;
-    background: #101827;
-    color: #ffffff;
-    font-size: 15px;
-}
-
-.calculator-result {
-    margin: 25px 0;
-    padding: 22px;
-    border-radius: 14px;
-    background: rgba(56,189,248,0.09);
-    text-align: center;
-}
-
-.calculator-result h3 {
-    font-size: 30px;
-    color: #38bdf8;
-    margin: 12px 0;
-}
-
-.price-calculator .btn {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-top: 12px;
-}
-
-/* MOBILE RESPONSIVE */
-
-@media (max-width: 768px) {
-
-    .package-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 13px;
+    .contact-box {
+        padding: 28px 18px;
     }
 
-    .package-card {
-        padding: 20px 12px;
-    }
-
-    .package-card .price {
-        font-size: 21px;
-    }
-
-    .promo-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .package-category {
-        font-size: 22px;
-    }
-
-    .price-calculator {
-        padding: 22px 16px;
+    .whatsapp-float {
+        right: 14px;
+        bottom: 14px;
+        padding: 12px 17px;
+        font-size: 13px;
     }
 }
 
-@media (max-width: 420px) {
+/* REDUCE MOTION */
 
-    .package-grid {
-        grid-template-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
     }
-
 }
-
-
-/* ==========================================
-   NEXORA - PREMIUM GLOW BUTTON
-========================================== */
-
-.btn {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(67, 186, 255, 0.5);
-    box-shadow: 0 0 12px rgba(67, 186, 255, 0.15);
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease,
-        background 0.3s ease;
-}
-
-/* HOVER GLOW */
-
-.btn:hover {
-    background: #8bd7ff;
-    transform: translateY(-3px);
-    box-shadow:
-        0 0 10px rgba(67, 186, 255, 0.7),
-        0 0 25px rgba(67, 186, 255, 0.5),
-        0 0 45px rgba(67, 186, 255, 0.25);
-}
-
-/* CLICK ANIMATION */
-
-.btn:active {
-    transform: scale(0.96);
-    box-shadow:
-        0 0 15px rgba(67, 186, 255, 0.9),
-        0 0 35px rgba(67, 186, 255, 0.6);
-}
-
-/* KEYBOARD FOCUS */
-
-.btn:focus-visible {
-    outline: 2px solid #43baff;
-    outline-offset: 4px;
-}
-
