@@ -42,42 +42,62 @@ document.addEventListener("DOMContentLoaded", function () {
     updateHeader();
 
 
-    // 3. ANIMASI SECTION SAAT MASUK LAYAR
-    const sections = document.querySelectorAll("section");
+    // 3. SCROLL REVEAL ENGINE
+
+const revealElements =
+    document.querySelectorAll("[data-reveal]");
+
+// Hormati pengaturan aksesibilitas
+if (
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches
+) {
+    revealElements.forEach(element => {
+        element.classList.add("is-visible");
+    });
+
+} else {
+
+    // Aktifkan CSS Scroll Reveal
+    document.documentElement.classList.add("reveal-ready");
 
     if ("IntersectionObserver" in window) {
 
-        const observer = new IntersectionObserver(
-            function (entries) {
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
 
-                entries.forEach(function (entry) {
+                    entries.forEach(entry => {
 
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
+                        if (entry.isIntersecting) {
 
-                });
+                            entry.target.classList.add("is-visible");
 
-            },
-            {
-                threshold: 0.12
-            }
-        );
+                            observer.unobserve(entry.target);
+                        }
 
-        sections.forEach(function (section) {
-            section.classList.add("reveal");
-            observer.observe(section);
+                    });
+
+                },
+                {
+                    threshold: 0.12,
+                    rootMargin: "0px 0px -40px 0px"
+                }
+            );
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
         });
 
     } else {
 
-        sections.forEach(function (section) {
-            section.classList.add("visible");
+        revealElements.forEach(element => {
+            element.classList.add("is-visible");
         });
 
     }
-
+}
 
     // 4. PRICE CALCULATOR
     const packageSelect =
@@ -321,3 +341,111 @@ Mohon informasi pendaftaran selanjutnya. Terima kasih.`;
     console.log("NEXORA berhasil dijalankan!");
 
 });
+/* =================================
+   NEXORA - SCROLL REVEAL ENGINE
+================================= */
+
+(function () {
+    const elements = document.querySelectorAll("[data-reveal]");
+
+    if (!elements.length) return;
+
+    // Hormati pengaturan aksesibilitas pengguna
+    if (window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches) {
+        return;
+    }
+
+    // Aktifkan animasi setelah JavaScript siap
+    document.documentElement.classList.add("reveal-ready");
+
+    // Fallback jika IntersectionObserver tidak tersedia
+    if (!("IntersectionObserver" in window)) {
+        elements.forEach(element => {
+            element.classList.add("is-visible");
+        });
+        return;
+    }
+
+    const observer = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+
+                    // Animasi cukup sekali
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.12,
+            rootMargin: "0px 0px -40px 0px"
+        }
+    );
+
+    elements.forEach(element => {
+        observer.observe(element);
+    });
+})();
+
+/* =================================
+   NEXORA - SCROLL PARALLAX ENGINE
+================================= */
+
+(function () {
+
+    const orbs = document.querySelectorAll(
+        ".nexora-orb"
+    );
+
+    if (!orbs.length) return;
+
+    if (
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches
+    ) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+
+        const scrollY = window.scrollY;
+
+        orbs.forEach((orb, index) => {
+
+            const speed = [0.10, -0.07, 0.05][index];
+
+            const movement = scrollY * speed;
+
+            orb.style.transform =
+                `translate3d(0, ${movement}px, 0)`;
+
+        });
+
+        ticking = false;
+    }
+
+    window.addEventListener(
+        "scroll",
+        function () {
+
+            if (!ticking) {
+
+                window.requestAnimationFrame(
+                    updateParallax
+                );
+
+                ticking = true;
+            }
+
+        },
+        { passive: true }
+    );
+
+    updateParallax();
+
+})();
+
