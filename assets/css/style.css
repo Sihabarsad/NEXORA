@@ -736,3 +736,333 @@ footer p {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* =================================
+   NEXORA - COMBINATION SCROLL ANIMATION
+================================= */
+
+/* Persiapan animasi */
+html.reveal-ready [data-reveal] {
+    opacity: 0;
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(.22, 1, .36, 1),
+        filter 0.8s ease;
+    will-change: opacity, transform;
+}
+
+/* Arah animasi */
+html.reveal-ready [data-reveal="up"] {
+    transform: translateY(45px);
+}
+
+html.reveal-ready [data-reveal="left"] {
+    transform: translateX(-45px);
+}
+
+html.reveal-ready [data-reveal="right"] {
+    transform: translateX(45px);
+}
+
+html.reveal-ready [data-reveal="zoom"] {
+    transform: scale(0.92);
+    filter: blur(4px);
+}
+
+/* Ketika elemen terlihat */
+html.reveal-ready [data-reveal].is-visible {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    filter: blur(0);
+}
+
+/* Stagger animation untuk kartu */
+[data-reveal-stagger] > [data-reveal]:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+[data-reveal-stagger] > [data-reveal]:nth-child(3) {
+    transition-delay: 0.30s;
+}
+
+[data-reveal-stagger] > [data-reveal]:nth-child(4) {
+    transition-delay: 0.45s;
+}
+
+/* Aksen glow biru */
+[data-reveal="glow"].is-visible {
+    filter: drop-shadow(0 0 12px rgba(67, 186, 255, 0.16));
+}
+
+/* Aksesibilitas */
+@media (prefers-reduced-motion: reduce) {
+    html.reveal-ready [data-reveal] {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition: none;
+    }
+}
+
+
+/* =================================
+   NEXORA - PREMIUM ANIMATED BACKGROUND
+   Floating Particles + Aurora + Grid
+================================= */
+
+body {
+    isolation: isolate;
+}
+
+/* BACKGROUND LAYER */
+.nexora-animated-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: transparent;
+}
+
+/* DIGITAL GRID */
+.nexora-animated-bg::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background-image:
+        linear-gradient(
+            rgba(67, 186, 255, 0.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(67, 186, 255, 0.045) 1px,
+            transparent 1px
+        );
+    background-size: 55px 55px;
+    animation: nexoraGridMove 35s linear infinite;
+    opacity: 0.55;
+}
+
+/* AURORA GLOW */
+.nexora-animated-bg::after {
+    content: "";
+    position: absolute;
+    width: 75vw;
+    height: 75vw;
+    max-width: 800px;
+    max-height: 800px;
+    top: -25%;
+    left: -15%;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(0, 145, 255, 0.16) 0%,
+        rgba(0, 110, 255, 0.07) 35%,
+        transparent 70%
+    );
+
+    filter: blur(65px);
+    animation: nexoraAurora 14s ease-in-out infinite alternate;
+}
+
+/* FLOATING PARTICLES */
+.nexora-particle {
+    position: absolute;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #43baff;
+
+    box-shadow:
+        0 0 8px #43baff,
+        0 0 18px rgba(67, 186, 255, 0.7);
+
+    opacity: 0.65;
+    animation: nexoraParticle 12s ease-in-out infinite;
+}
+
+.nexora-particle:nth-child(1) {
+    top: 25%;
+    left: 15%;
+}
+
+.nexora-particle:nth-child(2) {
+    top: 55%;
+    left: 80%;
+    animation-delay: -3s;
+}
+
+.nexora-particle:nth-child(3) {
+    top: 75%;
+    left: 35%;
+    animation-delay: -6s;
+}
+
+.nexora-particle:nth-child(4) {
+    top: 15%;
+    left: 70%;
+    animation-delay: -9s;
+}
+
+.nexora-particle:nth-child(5) {
+    top: 90%;
+    left: 90%;
+    animation-delay: -4s;
+}
+
+/* ANIMATION KEYFRAMES */
+@keyframes nexoraGridMove {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(55px);
+    }
+}
+
+@keyframes nexoraAurora {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+    to {
+        transform: translate(15%, 20%) scale(1.2);
+    }
+}
+
+@keyframes nexoraParticle {
+    0%, 100% {
+        transform: translate(0, 0);
+        opacity: 0.25;
+    }
+    50% {
+        transform: translate(20px, -35px);
+        opacity: 0.85;
+    }
+}
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+    .nexora-animated-bg *,
+    .nexora-animated-bg::before,
+    .nexora-animated-bg::after {
+        animation: none !important;
+    }
+}
+
+
+/* =================================
+   NEXORA - FLOATING TECH LOGOS
+================================= */
+
+.nexora-tech-logos {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.nexora-tech-logo {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(67, 186, 255, 0.24);
+    border: 1px solid rgba(67, 186, 255, 0.12);
+    border-radius: 12px;
+
+    background: rgba(17, 26, 43, 0.18);
+
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    text-shadow: 0 0 12px rgba(67, 186, 255, 0.4);
+
+    animation: nexoraLogoFloat 16s ease-in-out infinite;
+}
+
+/* POSISI LOGO */
+
+.nexora-tech-logo:nth-child(1) {
+    top: 15%;
+    left: 10%;
+}
+
+.nexora-tech-logo:nth-child(2) {
+    top: 35%;
+    right: 12%;
+    animation-delay: -3s;
+}
+
+.nexora-tech-logo:nth-child(3) {
+    top: 60%;
+    left: 18%;
+    animation-delay: -6s;
+}
+
+.nexora-tech-logo:nth-child(4) {
+    top: 78%;
+    right: 20%;
+    animation-delay: -9s;
+}
+
+.nexora-tech-logo:nth-child(5) {
+    top: 45%;
+    left: 48%;
+    animation-delay: -4s;
+}
+
+.nexora-tech-logo:nth-child(6) {
+    top: 85%;
+    left: 55%;
+    animation-delay: -7s;
+}
+
+/* FLOATING ANIMATION */
+
+@keyframes nexoraLogoFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+        opacity: 0.35;
+    }
+
+    50% {
+        transform: translateY(-28px) rotate(5deg);
+        opacity: 0.8;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .nexora-tech-logo {
+        width: 34px;
+        height: 34px;
+        font-size: 11px;
+        opacity: 0.55;
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    .nexora-tech-logo {
+        animation: none !important;
+    }
+}
+
+
+/* =================================
+   NEXORA - SCROLL REACTIVE EFFECTS
+================================= */
+
+.nexora-scroll-
